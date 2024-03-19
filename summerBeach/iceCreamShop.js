@@ -4,6 +4,8 @@ class iceCreamShop extends Phaser.Scene {
   }
 
   preload() {
+
+    this.load.audio("collectmusic", "assets/collectmusic.wav");
     // Step 1, load JSON
     this.load.tilemapTiledJSON("iceCreamShop", "assets/iceCreamShop.tmj");
 
@@ -97,6 +99,8 @@ class iceCreamShop extends Phaser.Scene {
     this.itemLayer = map.createLayer("itemLayer", tilesArray, 0, 0);
     this.chairLayer = map.createLayer("chairLayer", tilesArray, 0, 0);
     this.chairLayer2 = map.createLayer("chairLayer2", tilesArray, 0, 0);
+
+    this.collectmusic = this.sound.add("collectmusic")
 
     // this.player = this.physics.add.sprite(50,50,"gen");
 
@@ -214,6 +218,7 @@ class iceCreamShop extends Phaser.Scene {
 
   collectIcecream(player, item) {
     console.log("collectIcecream");
+    this.collectmusic.play()
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
     return false;

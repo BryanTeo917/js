@@ -4,6 +4,8 @@ class farm extends Phaser.Scene {
   }
 
   preload() {
+
+    this.load.audio("collectmusic", "assets/collectmusic.wav");
     // Step 1, load JSON
     this.load.tilemapTiledJSON("farm", "assets/farm.tmj");
 
@@ -79,6 +81,8 @@ class farm extends Phaser.Scene {
     this.floorLayer = map.createLayer("floorLayer", tilesArray, 0, 0);
     this.wallLayer = map.createLayer("itemLayer", tilesArray, 0, 0);
     this.buildingLayer = map.createLayer("buildingLayer", tilesArray, 0, 0);
+
+    this.collectmusic = this.sound.add("collectmusic")
 
     // this.player = this.physics.add.sprite(50,50,"gen");
 
@@ -193,6 +197,7 @@ class farm extends Phaser.Scene {
 
   collectMilk(player, item) {
     console.log("collectMilk");
+    this.collectmusic.play()
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
     return false;

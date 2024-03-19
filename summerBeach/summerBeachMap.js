@@ -9,6 +9,8 @@ class summerBeachMap extends Phaser.Scene {
   }
 
   preload() {
+
+    this.load.audio("collectmusic", "assets/collectmusic.wav");
     // Step 1, load JSON
     this.load.tilemapTiledJSON("summerBeachMap", "assets/summerBeachMap.tmj");
 
@@ -53,12 +55,15 @@ class summerBeachMap extends Phaser.Scene {
       frameWidth: 40,
       frameHeight: 37,
     });
-    
 
     // this.load.spritesheet('gen', 'assets/char-blank-64x64.png',{ frameWidth:64, frameHeight:64 });
   } // end of preload //
 
   create() {
+
+
+    
+
     console.log("summerBeachMap");
 
     this.anims.create({
@@ -142,6 +147,10 @@ class summerBeachMap extends Phaser.Scene {
     this.buildingLayer = map.createLayer("buildingLayer", tilesArray, 0, 0);
     this.otherLayer = map.createLayer("otherLayer", tilesArray, 0, 0);
 
+    this.collectmusic = this.sound.add("collectmusic")
+
+    
+
     // this.player = this.physics.add.sprite(50,50,"gen");
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -191,7 +200,11 @@ class summerBeachMap extends Phaser.Scene {
       this
     );
 
-    this.player = this.physics.add.sprite(this.playerPos.x, this.playerPos.y, "gen");
+    this.player = this.physics.add.sprite(
+      this.playerPos.x,
+      this.playerPos.y,
+      "gen"
+    );
     window.player = this.player;
 
     // create the arrow keys
@@ -210,56 +223,87 @@ class summerBeachMap extends Phaser.Scene {
       .setSize(this.player.width * 0.3, this.player.height * 0.3)
       .setOffset(22, 42);
 
-      this.anims.create({
-        key: "tea_Anim",
-        frames: this.anims.generateFrameNumbers("tea", { start: 0, end: 1 }),
-        frameRate: 5,
-        repeat: -1,
-      });
-  
-      let tea = map.findObject("objectLayer", (obj) => obj.name === "1");
-  
-      this.tea = this.physics.add.sprite(tea.x, tea.y, "tea").play("tea_Anim");
+    this.anims.create({
+      key: "tea_Anim",
+      frames: this.anims.generateFrameNumbers("tea", { start: 0, end: 1 }),
+      frameRate: 5,
+      repeat: -1,
+    });
 
-      this.anims.create({
-        key: "watermelon_Anim",
-        frames: this.anims.generateFrameNumbers("watermelon", { start: 0, end: 1 }),
-        frameRate: 5,
-        repeat: -1,
-      });
-  
-      let watermelon = map.findObject("objectLayer", (obj) => obj.name === "2");
-  
-      this.watermelon = this.physics.add.sprite(watermelon.x, watermelon.y, "watermelon").play("watermelon_Anim");
+    let tea = map.findObject("objectLayer", (obj) => obj.name === "1");
 
-      this.anims.create({
-        key: "coconut_Anim",
-        frames: this.anims.generateFrameNumbers("coconut", { start: 0, end: 1 }),
-        frameRate: 5,
-        repeat: -1,
-      });
-  
-      let coconut = map.findObject("objectLayer", (obj) => obj.name === "3");
-  
-      this.coconut = this.physics.add.sprite(coconut.x, coconut.y, "coconut").play("coconut_Anim");
+    this.tea = this.physics.add.sprite(tea.x, tea.y, "tea").play("tea_Anim");
 
-      this.anims.create({
-        key: "lemon_Anim",
-        frames: this.anims.generateFrameNumbers("lemon", { start: 0, end: 1 }),
-        frameRate: 5,
-        repeat: -1,
-      });
-  
-      let lemon = map.findObject("objectLayer", (obj) => obj.name === "4");
-  
-      this.lemon = this.physics.add.sprite(lemon.x, lemon.y, "lemon").play("lemon_Anim");
-      
-      this.physics.add.overlap(this.player, this.tea, this.collectTea, null, this);
-      this.physics.add.overlap(this.player, this.watermelon, this.collectWatermelon, null, this);
-      this.physics.add.overlap(this.player, this.coconut, this.collectCoconut, null, this);
-      this.physics.add.overlap(this.player, this.lemon, this.collectLemon, null, this);
+    this.anims.create({
+      key: "watermelon_Anim",
+      frames: this.anims.generateFrameNumbers("watermelon", {
+        start: 0,
+        end: 1,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
 
+    let watermelon = map.findObject("objectLayer", (obj) => obj.name === "2");
 
+    this.watermelon = this.physics.add
+      .sprite(watermelon.x, watermelon.y, "watermelon")
+      .play("watermelon_Anim");
+
+    this.anims.create({
+      key: "coconut_Anim",
+      frames: this.anims.generateFrameNumbers("coconut", { start: 0, end: 1 }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    let coconut = map.findObject("objectLayer", (obj) => obj.name === "3");
+
+    this.coconut = this.physics.add
+      .sprite(coconut.x, coconut.y, "coconut")
+      .play("coconut_Anim");
+
+    this.anims.create({
+      key: "lemon_Anim",
+      frames: this.anims.generateFrameNumbers("lemon", { start: 0, end: 1 }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    let lemon = map.findObject("objectLayer", (obj) => obj.name === "4");
+
+    this.lemon = this.physics.add
+      .sprite(lemon.x, lemon.y, "lemon")
+      .play("lemon_Anim");
+
+    this.physics.add.overlap(
+      this.player,
+      this.tea,
+      this.collectTea,
+      null,
+      this
+    );
+    this.physics.add.overlap(
+      this.player,
+      this.watermelon,
+      this.collectWatermelon,
+      null,
+      this
+    );
+    this.physics.add.overlap(
+      this.player,
+      this.coconut,
+      this.collectCoconut,
+      null,
+      this
+    );
+    this.physics.add.overlap(
+      this.player,
+      this.lemon,
+      this.collectLemon,
+      null,
+      this
+    );
   } // end of create //
 
   update() {
@@ -328,6 +372,7 @@ class summerBeachMap extends Phaser.Scene {
 
   collectLemon(player, item) {
     console.log("collectLemon");
+    this.collectmusic.play()
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
     return false;
@@ -335,6 +380,7 @@ class summerBeachMap extends Phaser.Scene {
 
   collectTea(player, item) {
     console.log("collectTea");
+    this.collectmusic.play()
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
     return false;
@@ -342,6 +388,7 @@ class summerBeachMap extends Phaser.Scene {
 
   collectWatermelon(player, item) {
     console.log("collectWatermelon");
+    this.collectmusic.play()
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
     return false;
@@ -349,9 +396,9 @@ class summerBeachMap extends Phaser.Scene {
 
   collectCoconut(player, item) {
     console.log("collectCoconut");
+    this.collectmusic.play()
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
     return false;
   }
-  
 }

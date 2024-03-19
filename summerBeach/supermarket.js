@@ -5,6 +5,8 @@ class supermarket extends Phaser.Scene {
 
   preload() {
     // Step 1, load JSON
+
+    this.load.audio("collectmusic", "assets/collectmusic.wav");
     this.load.tilemapTiledJSON("supermarket", "assets/supermarket.tmj");
 
     // Step 2 : Preload any images here
@@ -18,7 +20,6 @@ class supermarket extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
-
 
     this.load.spritesheet("ice", "assets/ice.png", {
       frameWidth: 32,
@@ -96,6 +97,8 @@ class supermarket extends Phaser.Scene {
     this.itemLayer = map.createLayer("itemLayer", tilesArray, 0, 0);
     this.itemLayer2 = map.createLayer("itemLayer2", tilesArray, 0, 0);
 
+    this.collectmusic = this.sound.add("collectmusic");
+
     // this.player = this.physics.add.sprite(50,50,"gen");
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -163,18 +166,24 @@ class supermarket extends Phaser.Scene {
       .setSize(this.player.width * 0.3, this.player.height * 0.3)
       .setOffset(22, 42);
 
-      this.anims.create({
-        key: "ice_Anim",
-        frames: this.anims.generateFrameNumbers("ice", { start: 0, end: 1 }),
-        frameRate: 5,
-        repeat: -1,
-      });
-  
-      let ice = map.findObject("objectLayer", (obj) => obj.name === "1");
-  
-      this.ice = this.physics.add.sprite(ice.x, ice.y, "ice").play("ice_Anim");
+    this.anims.create({
+      key: "ice_Anim",
+      frames: this.anims.generateFrameNumbers("ice", { start: 0, end: 1 }),
+      frameRate: 5,
+      repeat: -1,
+    });
 
-      this.physics.add.overlap(this.player, this.ice, this.collectIce, null, this);
+    let ice = map.findObject("objectLayer", (obj) => obj.name === "1");
+
+    this.ice = this.physics.add.sprite(ice.x, ice.y, "ice").play("ice_Anim");
+
+    this.physics.add.overlap(
+      this.player,
+      this.ice,
+      this.collectIce,
+      null,
+      this
+    );
   } // end of create //
 
   update() {
@@ -182,7 +191,6 @@ class supermarket extends Phaser.Scene {
       console.log("Door1");
       this.summerBeachMap();
     }
-    
 
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-160);
@@ -213,6 +221,7 @@ class supermarket extends Phaser.Scene {
 
   collectIce(player, item) {
     console.log("collectIce");
+    this.collectmusic.play();
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
     return false;

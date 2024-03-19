@@ -5,6 +5,11 @@ class preloadScene extends Phaser.Scene {
         super({ key: 'preloadScene' });
     }
 
+    preload(){
+
+        this.load.audio("bgmusic", "assets/bgmusic.mp3");
+    }
+
 
     create () {
 
@@ -21,6 +26,9 @@ class preloadScene extends Phaser.Scene {
             playerPos.facing="down"
             this.scene.start("summerBeachMap", {player : playerPos})
             }, this );
+
+            this.bgmusic = this.sound.add("bgmusic",{loop: true}).setVolume(0.2);
+            this.bgmusic.play();
 
     }
 
