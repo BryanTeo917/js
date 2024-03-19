@@ -170,9 +170,11 @@ class supermarket extends Phaser.Scene {
         repeat: -1,
       });
   
-      let item1 = map.findObject("objectLayer", (obj) => obj.name === "1");
+      let ice = map.findObject("objectLayer", (obj) => obj.name === "1");
   
-      this.item1 = this.physics.add.sprite(item1.x, item1.y, "ice").play("ice_Anim");
+      this.ice = this.physics.add.sprite(ice.x, ice.y, "ice").play("ice_Anim");
+
+      this.physics.add.overlap(this.player, this.ice, this.collectIce, null, this);
   } // end of create //
 
   update() {
@@ -207,5 +209,12 @@ class supermarket extends Phaser.Scene {
     playerPos.y = 899;
     playerPos.facing = "down";
     this.scene.start("summerBeachMap", { player: playerPos });
+  }
+
+  collectIce(player, item) {
+    console.log("collectIce");
+    // this.cameras.main.shake(200);
+    item.disableBody(true, true); // remove fire
+    return false;
   }
 }

@@ -151,9 +151,11 @@ class farm extends Phaser.Scene {
         repeat: -1,
       });
   
-      let item1 = map.findObject("objectLayer", (obj) => obj.name === "1");
+      let milk = map.findObject("objectLayer", (obj) => obj.name === "1");
   
-      this.item1 = this.physics.add.sprite(item1.x, item1.y, "milk").play("milk_Anim");
+      this.milk = this.physics.add.sprite(milk.x, milk.y, "milk").play("milk_Anim");
+
+      this.physics.add.overlap(this.player, this.milk, this.collectMilk, null, this);
   } // end of create //
 
   update() {
@@ -187,5 +189,12 @@ class farm extends Phaser.Scene {
     playerPos.y = 686;
     playerPos.facing = "down";
     this.scene.start("summerBeachMap", { player: playerPos });
+  }
+
+  collectMilk(player, item) {
+    console.log("collectMilk");
+    // this.cameras.main.shake(200);
+    item.disableBody(true, true); // remove fire
+    return false;
   }
 }

@@ -217,9 +217,9 @@ class summerBeachMap extends Phaser.Scene {
         repeat: -1,
       });
   
-      let item1 = map.findObject("objectLayer", (obj) => obj.name === "1");
+      let tea = map.findObject("objectLayer", (obj) => obj.name === "1");
   
-      this.item1 = this.physics.add.sprite(item1.x, item1.y, "tea").play("tea_Anim");
+      this.tea = this.physics.add.sprite(tea.x, tea.y, "tea").play("tea_Anim");
 
       this.anims.create({
         key: "watermelon_Anim",
@@ -228,9 +228,9 @@ class summerBeachMap extends Phaser.Scene {
         repeat: -1,
       });
   
-      let item2 = map.findObject("objectLayer", (obj) => obj.name === "2");
+      let watermelon = map.findObject("objectLayer", (obj) => obj.name === "2");
   
-      this.item2 = this.physics.add.sprite(item2.x, item2.y, "watermelon").play("watermelon_Anim");
+      this.watermelon = this.physics.add.sprite(watermelon.x, watermelon.y, "watermelon").play("watermelon_Anim");
 
       this.anims.create({
         key: "coconut_Anim",
@@ -239,9 +239,9 @@ class summerBeachMap extends Phaser.Scene {
         repeat: -1,
       });
   
-      let item3 = map.findObject("objectLayer", (obj) => obj.name === "3");
+      let coconut = map.findObject("objectLayer", (obj) => obj.name === "3");
   
-      this.item3 = this.physics.add.sprite(item3.x, item3.y, "coconut").play("coconut_Anim");
+      this.coconut = this.physics.add.sprite(coconut.x, coconut.y, "coconut").play("coconut_Anim");
 
       this.anims.create({
         key: "lemon_Anim",
@@ -250,9 +250,15 @@ class summerBeachMap extends Phaser.Scene {
         repeat: -1,
       });
   
-      let item4 = map.findObject("objectLayer", (obj) => obj.name === "4");
+      let lemon = map.findObject("objectLayer", (obj) => obj.name === "4");
   
-      this.item4 = this.physics.add.sprite(item4.x, item4.y, "lemon").play("lemon_Anim");
+      this.lemon = this.physics.add.sprite(lemon.x, lemon.y, "lemon").play("lemon_Anim");
+      
+      this.physics.add.overlap(this.player, this.tea, this.collectTea, null, this);
+      this.physics.add.overlap(this.player, this.watermelon, this.collectWatermelon, null, this);
+      this.physics.add.overlap(this.player, this.coconut, this.collectCoconut, null, this);
+      this.physics.add.overlap(this.player, this.lemon, this.collectLemon, null, this);
+
 
   } // end of create //
 
@@ -319,4 +325,33 @@ class summerBeachMap extends Phaser.Scene {
     console.log("farm function");
     this.scene.start("farm");
   }
+
+  collectLemon(player, item) {
+    console.log("collectLemon");
+    // this.cameras.main.shake(200);
+    item.disableBody(true, true); // remove fire
+    return false;
+  }
+
+  collectTea(player, item) {
+    console.log("collectTea");
+    // this.cameras.main.shake(200);
+    item.disableBody(true, true); // remove fire
+    return false;
+  }
+
+  collectWatermelon(player, item) {
+    console.log("collectWatermelon");
+    // this.cameras.main.shake(200);
+    item.disableBody(true, true); // remove fire
+    return false;
+  }
+
+  collectCoconut(player, item) {
+    console.log("collectCoconut");
+    // this.cameras.main.shake(200);
+    item.disableBody(true, true); // remove fire
+    return false;
+  }
+  
 }

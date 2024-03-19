@@ -172,9 +172,11 @@ class iceCreamShop extends Phaser.Scene {
       repeat: -1,
     });
 
-    let item1 = map.findObject("objectLayer", (obj) => obj.name === "1");
+    let icecream = map.findObject("objectLayer", (obj) => obj.name === "1");
 
-    this.item1 = this.physics.add.sprite(item1.x, item1.y, "icecream").play("icecream_Anim");
+    this.icecream = this.physics.add.sprite(icecream.x, icecream.y, "icecream").play("icecream_Anim");
+
+    this.physics.add.overlap(this.player, this.icecream, this.collectIcecream, null, this);
   } // end of create //
 
   update() {
@@ -208,5 +210,12 @@ class iceCreamShop extends Phaser.Scene {
     playerPos.y = 243;
     playerPos.facing = "down";
     this.scene.start("summerBeachMap", { player: playerPos });
+  }
+
+  collectIcecream(player, item) {
+    console.log("collectIcecream");
+    // this.cameras.main.shake(200);
+    item.disableBody(true, true); // remove fire
+    return false;
   }
 }
