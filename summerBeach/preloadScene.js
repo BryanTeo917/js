@@ -16,8 +16,8 @@ class preloadScene extends Phaser.Scene {
 
         spaceDown.on('down', function(){
             let playerPos={}
-            playerPos.x=1852
-            playerPos.y=1072
+            playerPos.x=1020
+            playerPos.y=1172
             playerPos.facing="down"
             this.scene.start("summerBeachMap", {player : playerPos})
             }, this );
