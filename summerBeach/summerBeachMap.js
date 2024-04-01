@@ -65,6 +65,21 @@ class summerBeachMap extends Phaser.Scene {
       frameHeight: 39,
     });
 
+    this.load.spritesheet("burger", "assets/burger.png", {
+      frameWidth: 36,
+      frameHeight: 29,
+    });
+
+    this.load.spritesheet("cola", "assets/cola.png", {
+      frameWidth: 29,
+      frameHeight: 57,
+    });
+
+    this.load.spritesheet("frenchfried", "assets/frenchfried.png", {
+      frameWidth: 31,
+      frameHeight: 40,
+    });
+
     this.load.spritesheet("MC", "assets/MC.png", {
       frameWidth: 64,
       frameHeight: 64,
@@ -318,6 +333,45 @@ class summerBeachMap extends Phaser.Scene {
       .sprite(lemon.x, lemon.y, "lemon")
       .play("lemon_Anim");
 
+      this.anims.create({
+        key: "burger_Anim",
+        frames: this.anims.generateFrameNumbers("burger", { start: 0, end: 1 }),
+        frameRate: 5,
+        repeat: -1,
+      });
+  
+      let burger = map.findObject("objectLayer", (obj) => obj.name === "8");
+  
+      this.burger = this.physics.add
+        .sprite(burger.x, burger.y, "burger")
+        .play("burger_Anim");
+
+        this.anims.create({
+          key: "cola_Anim",
+          frames: this.anims.generateFrameNumbers("cola", { start: 0, end: 1 }),
+          frameRate: 5,
+          repeat: -1,
+        });
+    
+        let cola = map.findObject("objectLayer", (obj) => obj.name === "9");
+    
+        this.cola = this.physics.add
+          .sprite(cola.x, cola.y, "cola")
+          .play("cola_Anim");
+
+          this.anims.create({
+            key: "frenchfried_Anim",
+            frames: this.anims.generateFrameNumbers("frenchfried", { start: 0, end: 1 }),
+            frameRate: 5,
+            repeat: -1,
+          });
+      
+          let frenchfried = map.findObject("objectLayer", (obj) => obj.name === "10");
+      
+          this.frenchfried = this.physics.add
+            .sprite(frenchfried.x, frenchfried.y, "frenchfried")
+            .play("frenchfried_Anim");
+
     this.physics.add.overlap(
       this.player,
       this.tea,
@@ -353,6 +407,30 @@ class summerBeachMap extends Phaser.Scene {
       this.player,
       this.moldbread,
       this.hitmoldbread,
+      null,
+      this
+    );
+
+    this.physics.add.overlap(
+      this.player,
+      this.burger,
+      this.hitburger,
+      null,
+      this
+    );
+
+    this.physics.add.overlap(
+      this.player,
+      this.cola,
+      this.hitcola,
+      null,
+      this
+    );
+
+    this.physics.add.overlap(
+      this.player,
+      this.frenchfried,
+      this.hitfrenchfried,
       null,
       this
     );
@@ -485,6 +563,30 @@ class summerBeachMap extends Phaser.Scene {
 
   hitmoldbread(player, death) {
     console.log("hitmoldbread , goto intro5");
+    // this.cameras.main.shake(200);
+    this.scene.start("intro5");
+    death.disableBody(true, true); // remove fire
+    return false;
+  }
+
+  hitburger(player, death) {
+    console.log("burger , goto intro5");
+    // this.cameras.main.shake(200);
+    this.scene.start("intro5");
+    death.disableBody(true, true); // remove fire
+    return false;
+  }
+
+  hitcola(player, death) {
+    console.log("cola , goto intro5");
+    // this.cameras.main.shake(200);
+    this.scene.start("intro5");
+    death.disableBody(true, true); // remove fire
+    return false;
+  }
+
+  hitfrenchfried(player, death) {
+    console.log("frenchfried , goto intro5");
     // this.cameras.main.shake(200);
     this.scene.start("intro5");
     death.disableBody(true, true); // remove fire
