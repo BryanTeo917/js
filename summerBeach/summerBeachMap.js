@@ -9,7 +9,6 @@ class summerBeachMap extends Phaser.Scene {
   }
 
   preload() {
-
     this.load.audio("collectmusic", "assets/collectmusic.wav");
     // Step 1, load JSON
     this.load.tilemapTiledJSON("summerBeachMap", "assets/summerBeachMap.tmj");
@@ -56,14 +55,25 @@ class summerBeachMap extends Phaser.Scene {
       frameHeight: 37,
     });
 
+    this.load.spritesheet("moldbread", "assets/moldbread.png", {
+      frameWidth: 46,
+      frameHeight: 48,
+    });
+
+    this.load.spritesheet("shit", "assets/shit.png", {
+      frameWidth: 42,
+      frameHeight: 39,
+    });
+
+    this.load.spritesheet("MC", "assets/MC.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
     // this.load.spritesheet('gen', 'assets/char-blank-64x64.png',{ frameWidth:64, frameHeight:64 });
   } // end of preload //
 
   create() {
-
-
-    
-
     console.log("summerBeachMap");
 
     this.anims.create({
@@ -147,15 +157,12 @@ class summerBeachMap extends Phaser.Scene {
     this.buildingLayer = map.createLayer("buildingLayer", tilesArray, 0, 0);
     this.otherLayer = map.createLayer("otherLayer", tilesArray, 0, 0);
 
-    this.collectmusic = this.sound.add("collectmusic")
-
-    
+    this.collectmusic = this.sound.add("collectmusic");
 
     // this.player = this.physics.add.sprite(50,50,"gen");
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    console.log("This is preloadScene spacebar V3");
 
     //this.input.once('pointerdown', function(){
     var spaceDown = this.input.keyboard.addKey("SPACE");
@@ -223,6 +230,9 @@ class summerBeachMap extends Phaser.Scene {
       .setSize(this.player.width * 0.3, this.player.height * 0.3)
       .setOffset(22, 42);
 
+    let MC = map.findObject("objectLayer", (obj) => obj.name === "5");
+    this.MC = this.physics.add.sprite(MC.x, MC.y, "MC");
+
     this.anims.create({
       key: "tea_Anim",
       frames: this.anims.generateFrameNumbers("tea", { start: 0, end: 1 }),
@@ -233,6 +243,38 @@ class summerBeachMap extends Phaser.Scene {
     let tea = map.findObject("objectLayer", (obj) => obj.name === "1");
 
     this.tea = this.physics.add.sprite(tea.x, tea.y, "tea").play("tea_Anim");
+
+    this.anims.create({
+      key: "moldbread_Anim",
+      frames: this.anims.generateFrameNumbers("moldbread", {
+        start: 0,
+        end: 1,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    let moldbread = map.findObject("objectLayer", (obj) => obj.name === "6");
+
+    this.moldbread = this.physics.add
+      .sprite(moldbread.x, moldbread.y, "moldbread")
+      .play("moldbread_Anim");
+
+    this.anims.create({
+      key: "shit_Anim",
+      frames: this.anims.generateFrameNumbers("shit", {
+        start: 0,
+        end: 1,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    let shit = map.findObject("objectLayer", (obj) => obj.name === "7");
+
+    this.shit = this.physics.add
+      .sprite(shit.x, shit.y, "shit")
+      .play("shit_Anim");
 
     this.anims.create({
       key: "watermelon_Anim",
@@ -304,6 +346,18 @@ class summerBeachMap extends Phaser.Scene {
       null,
       this
     );
+
+    this.physics.add.overlap(this.player, this.shit, this.hitshit, null, this);
+
+    this.physics.add.overlap(
+      this.player,
+      this.moldbread,
+      this.hitmoldbread,
+      null,
+      this
+    );
+
+    this.physics.add.overlap(this.player, this.MC, this.talktoMC, null, this);
   } // end of create //
 
   update() {
@@ -336,6 +390,19 @@ class summerBeachMap extends Phaser.Scene {
       console.log("farm");
       this.farm();
     } // outside of update() but within the class
+
+    if (
+      window.lemon == 1 &&
+      window.icecream == 1 &&
+      window.ice == 1 &&
+      window.tea == 1 &&
+      window.coconut == 1 &&
+      window.milk == 1 &&
+      window.watermelon == 1
+    ) {
+      console.log("goto intro6");
+      this.scene.start("intro6");
+    }
 
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-160);
@@ -372,7 +439,7 @@ class summerBeachMap extends Phaser.Scene {
 
   collectLemon(player, item) {
     console.log("collectLemon");
-    this.collectmusic.play()
+    this.collectmusic.play();
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
     return false;
@@ -380,7 +447,7 @@ class summerBeachMap extends Phaser.Scene {
 
   collectTea(player, item) {
     console.log("collectTea");
-    this.collectmusic.play()
+    this.collectmusic.play();
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
     return false;
@@ -388,7 +455,7 @@ class summerBeachMap extends Phaser.Scene {
 
   collectWatermelon(player, item) {
     console.log("collectWatermelon");
-    this.collectmusic.play()
+    this.collectmusic.play();
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
     return false;
@@ -396,9 +463,31 @@ class summerBeachMap extends Phaser.Scene {
 
   collectCoconut(player, item) {
     console.log("collectCoconut");
-    this.collectmusic.play()
+    this.collectmusic.play();
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
+    return false;
+  }
+
+  talktoMC(player, MC) {
+    console.log("talktoMC");
+    //display image
+    //start timer
+  }
+
+  hitshit(player, death) {
+    console.log("hitshit , goto intro5");
+    // this.cameras.main.shake(200);
+    this.scene.start("intro5");
+    death.disableBody(true, true); // remove fire
+    return false;
+  }
+
+  hitmoldbread(player, death) {
+    console.log("hitmoldbread , goto intro5");
+    // this.cameras.main.shake(200);
+    this.scene.start("intro5");
+    death.disableBody(true, true); // remove fire
     return false;
   }
 }

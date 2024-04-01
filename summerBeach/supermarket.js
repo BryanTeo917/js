@@ -25,6 +25,13 @@ class supermarket extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32,
     });
+
+    this.load.spritesheet("rottenbanana", "assets/rottenbanana.png", {
+      frameWidth: 49,
+      frameHeight: 35,
+    });
+
+    
   } // end of preload //
 
   create() {
@@ -177,10 +184,29 @@ class supermarket extends Phaser.Scene {
 
     this.ice = this.physics.add.sprite(ice.x, ice.y, "ice").play("ice_Anim");
 
+    this.anims.create({
+      key: "rottenbanana_Anim",
+      frames: this.anims.generateFrameNumbers("rottenbanana", { start: 0, end: 1 }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    let rottenbanana = map.findObject("objectLayer", (obj) => obj.name === "2");
+
+    this.rottenbanana = this.physics.add.sprite(rottenbanana.x, rottenbanana.y, "rottenbanana").play("rottenbanana_Anim");
+
     this.physics.add.overlap(
       this.player,
       this.ice,
       this.collectIce,
+      null,
+      this
+    );
+
+    this.physics.add.overlap(
+      this.player,
+      this.rottenbanana,
+      this.hitrottenbanana,
       null,
       this
     );
@@ -191,6 +217,20 @@ class supermarket extends Phaser.Scene {
       console.log("Door1");
       this.summerBeachMap();
     }
+
+    if (
+      window.lemon == 1 &&
+      window.icecream == 1 &&
+      window.ice == 1 &&
+      window.tea == 1 &&
+      window.coconut == 1 &&
+      window.milk == 1 &&
+      window.watermelon == 1
+    ) {
+      console.log("goto intro6");
+      this.scene.start("intro6");
+    }
+
 
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-160);
@@ -224,6 +264,14 @@ class supermarket extends Phaser.Scene {
     this.collectmusic.play();
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
+    return false;
+  }
+
+  hitrottenbanana(player, death) {
+    console.log("hitrottenbanana , goto intro5");
+    // this.cameras.main.shake(200);
+    this.scene.start("intro5")
+    death.disableBody(true, true); // remove fire
     return false;
   }
 }

@@ -4,7 +4,6 @@ class iceCreamShop extends Phaser.Scene {
   }
 
   preload() {
-
     this.load.audio("collectmusic", "assets/collectmusic.wav");
     // Step 1, load JSON
     this.load.tilemapTiledJSON("iceCreamShop", "assets/iceCreamShop.tmj");
@@ -21,9 +20,19 @@ class iceCreamShop extends Phaser.Scene {
       frameHeight: 64,
     });
 
+    this.load.spritesheet("NPC1", "assets/NPC1.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
     this.load.spritesheet("icecream", "assets/icecream.png", {
       frameWidth: 20,
       frameHeight: 37,
+    });
+
+    this.load.spritesheet("rottenapple", "assets/rottenapple.png", {
+      frameWidth: 28,
+      frameHeight: 33,
     });
 
     // this.load.spritesheet('gen', 'assets/char-blank-64x64.png',{ frameWidth:64, frameHeight:64 });
@@ -100,9 +109,13 @@ class iceCreamShop extends Phaser.Scene {
     this.chairLayer = map.createLayer("chairLayer", tilesArray, 0, 0);
     this.chairLayer2 = map.createLayer("chairLayer2", tilesArray, 0, 0);
 
-    this.collectmusic = this.sound.add("collectmusic")
+    this.collectmusic = this.sound.add("collectmusic");
 
-    // this.player = this.physics.add.sprite(50,50,"gen");
+    this.player = this.physics.add.sprite(140, 146, "NPC1");
+
+    this.player.body
+      .setSize(this.player.width * 0.3, this.player.height * 0.3)
+      .setOffset(22, 42);
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -160,10 +173,12 @@ class iceCreamShop extends Phaser.Scene {
     this.wallLayer.setCollisionByExclusion(-1, true);
     this.chairLayer.setCollisionByExclusion(-1, true);
     this.chairLayer2.setCollisionByExclusion(-1, true);
+    this.itemLayer.setCollisionByExclusion(-1, true);
 
     this.physics.add.collider(this.player, this.wallLayer);
     this.physics.add.collider(this.player, this.chairLayer);
     this.physics.add.collider(this.player, this.chairLayer2);
+    this.physics.add.collider(this.player, this.itemLayer);
 
     this.player.body
       .setSize(this.player.width * 0.3, this.player.height * 0.3)
@@ -178,16 +193,61 @@ class iceCreamShop extends Phaser.Scene {
 
     let icecream = map.findObject("objectLayer", (obj) => obj.name === "1");
 
-    this.icecream = this.physics.add.sprite(icecream.x, icecream.y, "icecream").play("icecream_Anim");
+    this.icecream = this.physics.add
+      .sprite(icecream.x, icecream.y, "icecream")
+      .play("icecream_Anim");
 
-    this.physics.add.overlap(this.player, this.icecream, this.collectIcecream, null, this);
+    this.anims.create({
+      key: "rottenapple_Anim",
+      frames: this.anims.generateFrameNumbers("rottenapple", {
+        start: 0,
+        end: 1,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    let rottenapple = map.findObject("objectLayer", (obj) => obj.name === "2");
+
+    this.rottenapple = this.physics.add
+      .sprite(rottenapple.x, rottenapple.y, "rottenapple")
+      .play("rottenapple_Anim");
+
+    this.physics.add.overlap(
+      this.player,
+      this.icecream,
+      this.collectIcecream,
+      null,
+      this
+    );
+
+    this.physics.add.overlap(
+      this.player,
+      this.rottenapple,
+      this.hitrottenapple,
+      null,
+      this
+    );
   } // end of create //
 
   update() {
-    if (this.player.x > 482 && this.player.x < 594 && this.player.y > 600) {
+    if (this.player.x > 425 && this.player.x < 600 && this.player.y > 600) {
       console.log("Door1");
       this.summerBeachMap();
     } // outside of update() but within the class
+
+    if (
+      window.lemon == 1 &&
+      window.icecream == 1 &&
+      window.ice == 1 &&
+      window.tea == 1 &&
+      window.coconut == 1 &&
+      window.milk == 1 &&
+      window.watermelon == 1
+    ) {
+      console.log("goto intro6");
+      this.scene.start("intro6");
+    }
 
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-160);
@@ -218,9 +278,17 @@ class iceCreamShop extends Phaser.Scene {
 
   collectIcecream(player, item) {
     console.log("collectIcecream");
-    this.collectmusic.play()
+    this.collectmusic.play();
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
+    return false;
+  }
+
+  hitrottenapple(player, death) {
+    console.log("hitrottenapple , goto intro5");
+    // this.cameras.main.shake(200);
+    this.scene.start("intro5")
+    death.disableBody(true, true); // remove fire
     return false;
   }
 }

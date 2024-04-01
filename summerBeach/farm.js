@@ -88,7 +88,6 @@ class farm extends Phaser.Scene {
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    console.log("This is preloadScene spacebar V3");
 
     var spaceDown = this.input.keyboard.addKey("SPACE");
 
@@ -163,10 +162,27 @@ class farm extends Phaser.Scene {
   } // end of create //
 
   update() {
+
+  
+
     if (this.player.x > 238 && this.player.x < 347 && this.player.y > 580) {
       console.log("Door1");
       this.summerBeachMap();
     }
+
+    if (
+      window.lemon == 1 &&
+      window.icecream == 1 &&
+      window.ice == 1 &&
+      window.tea == 1 &&
+      window.coconut == 1 &&
+      window.milk == 1 &&
+      window.watermelon == 1
+    ) {
+      console.log("goto intro6");
+      this.scene.start("intro6");
+    }
+
 
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-160);
