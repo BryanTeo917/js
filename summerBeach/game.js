@@ -25,6 +25,8 @@ let config = {
     intro5,
     intro6,
     intro7,
+    intro8,
+    intro9,
     summerBeachMap,
     iceCreamShop,
     supermarket,

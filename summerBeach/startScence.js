@@ -34,7 +34,7 @@ class startScence extends Phaser.Scene {
             this.scene.start("intro1", {player : playerPos})
             }, this );
 
-            this.island = this.sound.add("island",{loop: true}).setVolume(1);
+            this.island = this.sound.add("island",{loop: true}).setVolume(0.2);
             this.island.play();
 
     }
