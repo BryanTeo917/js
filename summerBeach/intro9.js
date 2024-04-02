@@ -1,23 +1,23 @@
-class mainpage extends Phaser.Scene {
+class intro9 extends Phaser.Scene {
 
     constructor ()
     {
-        super({ key: 'mainpage' });
+        super({ key: 'intro9' });
     }
 
     preload(){
 
         
-        this.load.image("mainpage", "assets/mainpage.png");
+        this.load.image("intro9", "assets/intro9.png");
         
     }
 
 
     create () {
 
-        console.log("mainpage")
+        console.log("intro9")
 
-        this.add.image(0, 0, 'mainpage').setOrigin(0, 0);
+        this.add.image(0, 0, 'intro9').setOrigin(0, 0);
 
 
         var spaceDown = this.input.keyboard.addKey('SPACE');
