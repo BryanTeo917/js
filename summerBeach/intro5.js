@@ -25,7 +25,7 @@ class intro5 extends Phaser.Scene {
             playerPos.x=1020
             playerPos.y=1172
             playerPos.facing="down"
-            this.scene.start("startScence", {player : playerPos})
+            this.scene.start("startScence2", {player : playerPos})
             }, this );
   }
 }
