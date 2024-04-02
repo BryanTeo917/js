@@ -8,7 +8,7 @@ class startScence extends Phaser.Scene {
     preload(){
 
         
-        this.load.image("startScence", "assets/startScence.png");
+        this.load.image("startScence", "assets/intro9.png");
         this.load.audio("island", "assets/island.mp3");
         
     }
@@ -31,7 +31,7 @@ class startScence extends Phaser.Scene {
             playerPos.x=1020
             playerPos.y=1172
             playerPos.facing="down"
-            this.scene.start("intro1", {player : playerPos})
+            this.scene.start("intro9", {player : playerPos})
             }, this );
 
             this.island = this.sound.add("island",{loop: true}).setVolume(0.2);

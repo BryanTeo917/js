@@ -8,7 +8,7 @@ class intro9 extends Phaser.Scene {
     preload(){
 
         
-        this.load.image("intro9", "assets/intro9.png");
+        this.load.image("intro9", "assets/startScence.png");
         
     }
 
@@ -27,7 +27,7 @@ class intro9 extends Phaser.Scene {
             playerPos.x=1020
             playerPos.y=1172
             playerPos.facing="down"
-            this.scene.start("startScene", {player : playerPos})
+            this.scene.start("intro1", {player : playerPos})
             }, this );
 
     }
