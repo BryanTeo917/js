@@ -1,18 +1,18 @@
-class intro6 extends Phaser.Scene {
+class voucher extends Phaser.Scene {
   constructor() {
-    super({ key: "intro6" });
+    super({ key: "voucher" });
   }
 
   preload() {
-    this.load.image("intro6", "assets/intro6.png");
+    this.load.image("voucher", "assets/voucher.png");
   }
 
   create() {
-    console.log("intro6");
+    console.log("voucher");
 
     this.scene.stop("showInventory");
 
-    this.add.image(0, 0, "intro6").setOrigin(0, 0);
+    this.add.image(0, 0, "voucher").setOrigin(0, 0);
 
     var spaceDown = this.input.keyboard.addKey("SPACE");
 
@@ -25,7 +25,7 @@ class intro6 extends Phaser.Scene {
         playerPos.x = 1020;
         playerPos.y = 1172;
         playerPos.facing = "down";
-        this.scene.start("intro8", { player: playerPos });
+        this.scene.start("startScence2", { player: playerPos });
       },
       this
     );
