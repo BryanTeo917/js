@@ -85,6 +85,11 @@ class summerBeachMap extends Phaser.Scene {
       frameHeight: 64,
     });
 
+    this.load.spritesheet("exit", "assets/exit.png", {
+      frameWidth: 30,
+      frameHeight: 34,
+    });
+
     // this.load.spritesheet('gen', 'assets/char-blank-64x64.png',{ frameWidth:64, frameHeight:64 });
   } // end of preload //
 
@@ -180,16 +185,7 @@ class summerBeachMap extends Phaser.Scene {
 
 
     //this.input.once('pointerdown', function(){
-    var spaceDown = this.input.keyboard.addKey("SPACE");
-
-    spaceDown.on(
-      "down",
-      function () {
-        console.log("Spacebar pressed, supermarket");
-        this.scene.start("supermarket");
-      },
-      this
-    );
+    
 
     var key2Down = this.input.keyboard.addKey(50);
     var key3Down = this.input.keyboard.addKey(51);
@@ -372,6 +368,19 @@ class summerBeachMap extends Phaser.Scene {
             .sprite(frenchfried.x, frenchfried.y, "frenchfried")
             .play("frenchfried_Anim");
 
+            this.anims.create({
+              key: "exit_Anim",
+              frames: this.anims.generateFrameNumbers("exit", { start: 0, end: 1 }),
+              frameRate: 5,
+              repeat: -1,
+            });
+        
+            let exit = map.findObject("objectLayer", (obj) => obj.name === "11");
+        
+            this.exit = this.physics.add
+              .sprite(exit.x, exit.y, "exit")
+              .play("exit_Anim");
+
     this.physics.add.overlap(
       this.player,
       this.tea,
@@ -431,6 +440,14 @@ class summerBeachMap extends Phaser.Scene {
       this.player,
       this.frenchfried,
       this.hitfrenchfried,
+      null,
+      this
+    );
+    
+    this.physics.add.overlap(
+      this.player,
+      this.exit,
+      this.hitexit,
       null,
       this
     );
@@ -589,6 +606,14 @@ class summerBeachMap extends Phaser.Scene {
     console.log("frenchfried , goto intro5");
     // this.cameras.main.shake(200);
     this.scene.start("intro5");
+    death.disableBody(true, true); // remove fire
+    return false;
+  }
+
+  hitexit(player, death) {
+    console.log("exit , goto intro6");
+    // this.cameras.main.shake(200);
+    this.scene.start("intro6");
     death.disableBody(true, true); // remove fire
     return false;
   }

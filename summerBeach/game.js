@@ -5,7 +5,7 @@ let config = {
   physics: {
     default: "arcade",
     arcade: {
-      debug: true,
+      debug: false,
     },
   },
   backgroundColor: "#000000",
@@ -17,6 +17,7 @@ let config = {
 
   scene: [
     startScence,
+    startScence2,
     intro1,
     intro2,
     intro3,

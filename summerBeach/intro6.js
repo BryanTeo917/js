@@ -16,18 +16,16 @@ class intro6 extends Phaser.Scene {
 
     var spaceDown = this.input.keyboard.addKey("SPACE");
 
+    var spaceDown = this.input.keyboard.addKey("SPACE");
+
     spaceDown.on(
       "down",
       function () {
-        console.log("Spacebar pressed, goto startScene");
-        window.lemon = 0;
-        window.icecream = 0;
-        window.ice = 0;
-        window.tea = 0;
-        window.coconut = 0;
-        window.milk = 0;
-        window.watermelon = 0;
-        this.scene.start("startScence", { player: playerPos });
+        let playerPos = {};
+        playerPos.x = 1020;
+        playerPos.y = 1172;
+        playerPos.facing = "down";
+        this.scene.start("startScence2", { player: playerPos });
       },
       this
     );

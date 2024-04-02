@@ -119,16 +119,6 @@ class iceCreamShop extends Phaser.Scene {
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    var spaceDown = this.input.keyboard.addKey("SPACE");
-
-    spaceDown.on(
-      "down",
-      function () {
-        console.log("Space pressed, goto farm");
-        this.scene.start("farm");
-      },
-      this
-    );
 
     var key1Down = this.input.keyboard.addKey(49);
     var key3Down = this.input.keyboard.addKey(51);
