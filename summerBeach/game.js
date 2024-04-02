@@ -28,7 +28,9 @@ let config = {
     summerBeachMap,
     iceCreamShop,
     supermarket,
-    farm
+    farm,
+    voucher,
+    mainpage
     
   ],
 };
