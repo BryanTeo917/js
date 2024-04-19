@@ -5,11 +5,14 @@ class intro5 extends Phaser.Scene {
 
   preload() {
     this.load.image("intro5", "assets/intro5.png");
+    this.load.audio("gameover", "assets/gameover.wav");
   }
 
   create() {
     console.log("intro5");
     
+    this.gameoverSnd = this.sound.add("gameover").setVolume(0.4);
+
     window.island.stop()
 
     this.scene.stop("showInventory");
@@ -27,5 +30,7 @@ class intro5 extends Phaser.Scene {
             playerPos.facing="down"
             this.scene.start("startScence2", {player : playerPos})
             }, this );
+
+            this.gameoverSnd.play();
   }
 }

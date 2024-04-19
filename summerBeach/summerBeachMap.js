@@ -535,6 +535,7 @@ class summerBeachMap extends Phaser.Scene {
   collectLemon(player, item) {
     console.log("collectLemon");
     this.collectmusic.play();
+    window.lemon=1
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
     return false;
@@ -544,6 +545,7 @@ class summerBeachMap extends Phaser.Scene {
     console.log("collectTea");
     this.collectmusic.play();
     // this.cameras.main.shake(200);
+    window.tea=1
     item.disableBody(true, true); // remove fire
     return false;
   }
@@ -552,6 +554,7 @@ class summerBeachMap extends Phaser.Scene {
     console.log("collectWatermelon");
     this.collectmusic.play();
     // this.cameras.main.shake(200);
+    window.watermelon=1
     item.disableBody(true, true); // remove fire
     return false;
   }
@@ -559,6 +562,7 @@ class summerBeachMap extends Phaser.Scene {
   collectCoconut(player, item) {
     console.log("collectCoconut");
     this.collectmusic.play();
+    window.coconut=1
     // this.cameras.main.shake(200);
     item.disableBody(true, true); // remove fire
     return false;
